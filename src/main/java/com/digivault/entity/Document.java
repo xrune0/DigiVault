@@ -32,6 +32,13 @@ public class Document {
 
     private LocalDateTime uploadedAt;
 
+    // ID, Education, Medical, Finance, Work or Other
+    private String category;
+
+    // AI-generated summary, saved so we only call the AI once per document
+    @Column(columnDefinition = "TEXT")
+    private String summary;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore // don't send user details (and password hash) with every document
