@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigiVault - Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            DigiVault
+        </div>
+
+        <div class="nav-right">
+            <div class="user-info">
+                <div class="avatar" id="avatar"></div>
+                <div class="user-text">
+                    <strong id="userName"></strong>
+                    <small id="userEmail"></small>
+                </div>
+            </div>
+            <button id="logoutBtn" class="btn btn-secondary btn-small">Logout</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="page-title">
+            <h2 id="greeting">Welcome!</h2>
+            <p>Here's an overview of your secure vault.</p>
+        </div>
+
+        <!-- Stats -->
+        <section class="stats">
+            <div class="stat-card">
+                <div class="stat-icon purple">📄</div>
+                <div>
+                    <p>Total Documents</p>
+                    <h4 id="statCount">0</h4>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon cyan">💾</div>
+                <div>
+                    <p>Storage Used</p>
+                    <h4 id="statSize">0 B</h4>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon green">🕒</div>
+                <div>
+                    <p>Last Upload</p>
+                    <h4 id="statLast">—</h4>
+                </div>
+            </div>
+        </section>
+
+        <!-- Upload -->
+        <section class="card">
+            <div class="card-header">
+                <h3>Upload Document</h3>
+            </div>
+            <form id="uploadForm" class="upload-form">
+                <div class="dropzone" id="dropzone">
+                    <input type="file" id="fileInput" required>
+                    <div class="dropzone-icon">☁️</div>
+                    <p><strong>Click to browse</strong> or drag &amp; drop a file here</p>
+                    <p>Any file type · Max 10 MB</p>
+                    <p class="selected-file" id="selectedFile" hidden></p>
+                </div>
+                <div class="upload-actions">
+                    <button type="submit" class="btn btn-primary" id="uploadBtn">⬆ Upload File</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Documents -->
+        <section class="card">
+            <div class="card-header">
+                <h3>My Documents</h3>
+                <span class="badge-count" id="docBadge">0 files</span>
+            </div>
+
+            <div class="table-wrap" id="tableWrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>File</th>
+                            <th>Size</th>
+                            <th>Uploaded</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="documentList"></tbody>
+                </table>
+            </div>
+
+            <div class="empty-state" id="emptyMessage">
+                <div>📂</div>
+                <h4>No documents yet</h4>
+                <p>Upload your first file to get started.</p>
+            </div>
+        </section>
+    </main>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

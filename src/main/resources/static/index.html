@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigiVault - Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-page">
+    <div class="auth-wrapper">
+
+        <!-- Left: branding -->
+        <section class="auth-brand">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+                DigiVault
+            </div>
+
+            <div>
+                <h2>Your documents.<br>Safe &amp; always with you.</h2>
+                <p>Store, manage and access your important files from anywhere.</p>
+            </div>
+
+            <ul class="feature-list">
+                <li><span>🔒</span> Secured with JWT authentication</li>
+                <li><span>☁️</span> Upload files up to 10 MB</li>
+                <li><span>⚡</span> Instant download, anytime</li>
+            </ul>
+        </section>
+
+        <!-- Right: login form -->
+        <section class="auth-form">
+            <h1>Welcome back 👋</h1>
+            <p class="subtitle">Sign in to access your vault</p>
+
+            <form id="loginForm">
+                <label for="email">Email</label>
+                <div class="input-group">
+                    <span class="input-icon">✉️</span>
+                    <input type="email" id="email" placeholder="you@example.com" required>
+                </div>
+
+                <label for="password">Password</label>
+                <div class="input-group">
+                    <span class="input-icon">🔑</span>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </form>
+
+            <p id="message" class="message"></p>
+            <p class="switch">Don't have an account? <a href="register.html">Create one</a></p>
+        </section>
+    </div>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>
