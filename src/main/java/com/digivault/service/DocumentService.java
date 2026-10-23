@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -31,12 +32,21 @@ public class DocumentService {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
+    @Value("${storage.quota-mb:100}")
+    private long quotaMb;
+
     public Document upload(MultipartFile file, String category, String email) throws Exception {
         if (file.isEmpty()) {
             throw new RuntimeException("Please select a file to upload");
         }
 
         User user = getUser(email);
+
+        // Storage limit check (files in Trash still count, because they are still on disk)
+        long used = documentRepository.sumFileSizeByUserId(user.getId());
+        if (used + file.getSize() > quotaBytes()) {
+            throw new RuntimeException("Storage full: you can store up to " + quotaMb + " MB. Empty your Trash or delete files.");
+        }
 
         // Create the uploads folder if it does not exist yet
         Path uploadPath = Paths.get(uploadDir);
@@ -62,9 +72,21 @@ public class DocumentService {
         return documentRepository.save(document);
     }
 
+    // Active documents only (not in Trash)
     public List<Document> getUserDocuments(String email) {
         User user = getUser(email);
-        return documentRepository.findByUserId(user.getId());
+        return documentRepository.findByUserIdAndDeletedAtIsNull(user.getId());
+    }
+
+    public List<Document> getTrash(String email) {
+        User user = getUser(email);
+        return documentRepository.findByUserIdAndDeletedAtIsNotNull(user.getId());
+    }
+
+    // Storage used and the user's limit, in bytes
+    public Map<String, Long> getStorage(String email) {
+        User user = getUser(email);
+        return Map.of("used", documentRepository.sumFileSizeByUserId(user.getId()), "quota", quotaBytes());
     }
 
     public Document getDocument(Long id, String email) {
@@ -107,10 +129,42 @@ public class DocumentService {
         return summary;
     }
 
-    public void delete(Long id, String email) throws IOException {
-        Document document = getDocument(id, email); // includes owner check
+    // Flip the star (favourite) flag
+    public Document toggleStar(Long id, String email) {
+        Document document = getDocument(id, email);
+        document.setStarred(!document.isStarred());
+        return documentRepository.save(document);
+    }
+
+    // Soft delete: the file stays on disk until it is deleted from Trash
+    public void moveToTrash(Long id, String email) {
+        Document document = getDocument(id, email);
+        document.setDeletedAt(LocalDateTime.now());
+        documentRepository.save(document);
+    }
+
+    public void restore(Long id, String email) {
+        Document document = getDocument(id, email);
+        document.setDeletedAt(null);
+        documentRepository.save(document);
+    }
+
+    // Permanent delete: removes the encrypted file and the database record
+    public void deletePermanently(Long id, String email) throws IOException {
+        Document document = getDocument(id, email);
         Files.deleteIfExists(Paths.get(document.getFilePath()));
         documentRepository.delete(document);
+    }
+
+    public void emptyTrash(String email) throws IOException {
+        for (Document document : getTrash(email)) {
+            Files.deleteIfExists(Paths.get(document.getFilePath()));
+            documentRepository.delete(document);
+        }
+    }
+
+    private long quotaBytes() {
+        return quotaMb * 1024 * 1024;
     }
 
     private User getUser(String email) {

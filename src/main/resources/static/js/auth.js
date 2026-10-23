@@ -14,25 +14,38 @@ function setLoading(button, loading, text) {
     button.textContent = text;
 }
 
-// Save the JWT and user info, then go to the dashboard
-function saveAndRedirect(data) {
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("name", data.name);
-    localStorage.setItem("email", data.email);
+// "Remember me" keeps the login in localStorage (survives closing the browser);
+// otherwise it goes in sessionStorage (cleared when the browser closes)
+function saveAndRedirect(data, remember) {
+    localStorage.clear();
+    sessionStorage.clear();
+    const store = remember ? localStorage : sessionStorage;
+    store.setItem("token", data.token);
+    store.setItem("name", data.name);
+    store.setItem("email", data.email);
     window.location.href = "dashboard.html";
 }
 
 // If already logged in, skip the login/register page
-if (localStorage.getItem("token")) {
+if (localStorage.getItem("token") || sessionStorage.getItem("token")) {
     window.location.href = "dashboard.html";
 }
+
+// Show / hide password (eye button)
+document.querySelectorAll(".eye").forEach(function (button) {
+    button.addEventListener("click", function () {
+        const input = document.getElementById(button.dataset.target);
+        input.type = input.type === "password" ? "text" : "password";
+        button.title = input.type === "password" ? "Show password" : "Hide password";
+    });
+});
 
 // ===== Login =====
 const loginForm = document.getElementById("loginForm");
 if (loginForm) {
     loginForm.addEventListener("submit", async function (e) {
         e.preventDefault();
-        const button = loginForm.querySelector("button");
+        const button = loginForm.querySelector("button[type=submit]");
         setLoading(button, true, "Signing in...");
 
         const body = {
@@ -50,14 +63,14 @@ if (loginForm) {
 
             if (response.ok) {
                 showMessage("Login successful! Redirecting...", "success");
-                saveAndRedirect(data);
+                saveAndRedirect(data, document.getElementById("remember").checked);
             } else {
                 showMessage(data.message || "Login failed", "error");
             }
         } catch (err) {
             showMessage("Could not connect to server", "error");
         }
-        setLoading(button, false, "Login");
+        setLoading(button, false, "Sign In →");
     });
 }
 
@@ -66,7 +79,7 @@ const registerForm = document.getElementById("registerForm");
 if (registerForm) {
     registerForm.addEventListener("submit", async function (e) {
         e.preventDefault();
-        const button = registerForm.querySelector("button");
+        const button = registerForm.querySelector("button[type=submit]");
         setLoading(button, true, "Creating account...");
 
         const body = {
@@ -85,13 +98,13 @@ if (registerForm) {
 
             if (response.ok) {
                 showMessage("Account created! Redirecting...", "success");
-                saveAndRedirect(data);
+                saveAndRedirect(data, true);
             } else {
                 showMessage(data.message || "Registration failed", "error");
             }
         } catch (err) {
             showMessage("Could not connect to server", "error");
         }
-        setLoading(button, false, "Create Account");
+        setLoading(button, false, "Create Account →");
     });
 }

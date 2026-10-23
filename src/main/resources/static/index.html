@@ -3,60 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DigiVault - Login</title>
+    <title>DigiVault - Sign in</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='9' fill='%231d1b22'/><path d='M11 15v-3a5 5 0 0 1 10 0v3' fill='none' stroke='white' stroke-width='2.4'/><rect x='9' y='15' width='14' height='10' rx='2.5' fill='white'/></svg>">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="auth-page">
-    <div class="auth-wrapper">
+    <main class="auth-layout">
 
-        <!-- Left: branding -->
-        <section class="auth-brand">
-            <div class="logo">
-                <div class="logo-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                </div>
-                DigiVault
+        <!-- Left: brand and introduction (artwork is the page background) -->
+        <section class="auth-intro">
+            <div class="brand">
+                <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2.5" fill="currentColor"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>
+                <span>DigiVault<small>Secure. Store. Access.</small></span>
             </div>
 
             <div>
-                <h2>Your documents.<br>Safe &amp; always with you.</h2>
-                <p>Store, manage and access your important files from anywhere.</p>
+                <h1>Your important files, always with you.</h1>
+                <p>A secure space to store, organise and access your documents from anywhere.</p>
             </div>
 
             <ul class="feature-list">
-                <li><span>🔒</span> Secured with JWT authentication</li>
-                <li><span>☁️</span> Upload files up to 10 MB</li>
-                <li><span>⚡</span> Instant download, anytime</li>
+                <li>
+                    <span class="tile"><svg class="i" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg></span>
+                    <div><strong>AES-256 encryption</strong><small>Your files stay private</small></div>
+                </li>
+                <li>
+                    <span class="tile"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
+                    <div><strong>Secure authentication</strong><small>Protected with JWT</small></div>
+                </li>
+                <li>
+                    <span class="tile"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><circle cx="12" cy="11" r="2"/></svg></span>
+                    <div><strong>Access from anywhere</strong><small>On any device, anytime</small></div>
+                </li>
             </ul>
         </section>
 
-        <!-- Right: login form -->
-        <section class="auth-form">
-            <h1>Welcome back 👋</h1>
+        <!-- Right: sign-in card -->
+        <section class="auth-card">
+            <div class="sparkle" aria-hidden="true"></div>
+            <h2>Welcome back</h2>
             <p class="subtitle">Sign in to access your vault</p>
 
             <form id="loginForm">
-                <label for="email">Email</label>
-                <div class="input-group">
-                    <span class="input-icon">✉️</span>
-                    <input type="email" id="email" placeholder="you@example.com" required>
+                <div class="form-field">
+                    <label for="email">Email</label>
+                    <div class="input-icon">
+                        <svg class="i" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+                        <input type="email" id="email" class="field" placeholder="you@example.com" required>
+                    </div>
                 </div>
 
-                <label for="password">Password</label>
-                <div class="input-group">
-                    <span class="input-icon">🔑</span>
-                    <input type="password" id="password" placeholder="Enter your password" required>
+                <div class="form-field">
+                    <label for="password">Password</label>
+                    <div class="input-icon">
+                        <svg class="i" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+                        <input type="password" id="password" class="field" placeholder="Enter your password" required>
+                        <button type="button" class="icon-btn eye" data-target="password" title="Show password">
+                            <svg class="i" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </button>
+                    </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                <div class="auth-row">
+                    <label class="check"><input type="checkbox" id="remember" checked> Remember me</label>
+                </div>
+
+                <button type="submit" class="btn btn-dark btn-block">Sign In →</button>
             </form>
 
             <p id="message" class="message"></p>
-            <p class="switch">Don't have an account? <a href="register.html">Create one</a></p>
+            <p class="auth-switch">Don't have an account? <a href="register.html">Create one</a></p>
         </section>
-    </div>
+    </main>
 
     <script src="js/auth.js"></script>
 </body>

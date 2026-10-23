@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigiVault - Your Files</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='9' fill='%231d1b22'/><path d='M11 15v-3a5 5 0 0 1 10 0v3' fill='none' stroke='white' stroke-width='2.4'/><rect x='9' y='15' width='14' height='10' rx='2.5' fill='white'/></svg>">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" id="sidebar" data-page="documents"></aside>
+
+        <main class="main">
+            <header class="topbar" id="topbar"></header>
+
+            <div class="page-head">
+                <div>
+                    <h1>Your Files</h1>
+                    <p id="fileCount">Loading...</p>
+                </div>
+                <a href="upload.html" class="btn btn-violet">＋ Upload File</a>
+            </div>
+
+            <div class="tabs" id="tabs">
+                <button class="tab active" data-tab="all" type="button">All</button>
+                <button class="tab" data-tab="documents" type="button">Documents</button>
+                <button class="tab" data-tab="images" type="button">Images</button>
+                <button class="tab" data-tab="others" type="button">Others</button>
+                <button class="tab" data-tab="starred" type="button">★ Starred</button>
+            </div>
+
+            <div class="filters">
+                <div class="input-icon">
+                    <svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+                    <input type="search" id="searchInput" class="field" placeholder="Search by file name...">
+                </div>
+                <select id="categoryFilter" class="select">
+                    <option value="All">All categories</option>
+                    <option value="ID">ID</option>
+                    <option value="Education">Education</option>
+                    <option value="Medical">Medical</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Work">Work</option>
+                    <option value="Other">Other</option>
+                </select>
+                <select id="sortSelect" class="select">
+                    <option value="newest">Date added (newest)</option>
+                    <option value="oldest">Date added (oldest)</option>
+                    <option value="name">Name (A–Z)</option>
+                    <option value="size">Size (largest)</option>
+                </select>
+            </div>
+
+            <section class="card table-card">
+                <table class="file-table" id="fileTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th class="hide-sm">Category</th>
+                            <th class="num hide-md">Size</th>
+                            <th class="num hide-sm">Date Added</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="documentList"></tbody>
+                </table>
+
+                <div class="empty-state" id="emptyMessage" hidden>
+                    <div class="sparkle" aria-hidden="true"></div>
+                    <h4 id="emptyTitle">No files yet</h4>
+                    <p id="emptyText">Upload your first file to get started.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Pop-up used for file preview and AI summary -->
+    <div class="modal-overlay" id="modal" hidden>
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modalTitle"></h3>
+                <button class="icon-btn bordered" id="modalClose" type="button" title="Close"><svg class="i i-sm" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="js/common.js"></script>
+    <script src="js/documents.js"></script>
+</body>
+</html>

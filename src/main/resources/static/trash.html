@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigiVault - Trash</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='9' fill='%231d1b22'/><path d='M11 15v-3a5 5 0 0 1 10 0v3' fill='none' stroke='white' stroke-width='2.4'/><rect x='9' y='15' width='14' height='10' rx='2.5' fill='white'/></svg>">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" id="sidebar" data-page="trash"></aside>
+
+        <main class="main">
+            <header class="topbar" id="topbar"></header>
+
+            <div class="page-head">
+                <div>
+                    <h1>Trash</h1>
+                    <p>Deleted files stay here until you remove them forever. They still count towards your storage.</p>
+                </div>
+                <button class="btn btn-danger" id="emptyBtn" type="button" hidden>Empty Trash</button>
+            </div>
+
+            <section class="card table-card">
+                <table class="file-table" id="trashTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th class="num hide-sm">Size</th>
+                            <th class="num hide-sm">Deleted on</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="trashList"></tbody>
+                </table>
+
+                <div class="empty-state" id="emptyMessage" hidden>
+                    <div class="sparkle" aria-hidden="true"></div>
+                    <h4>Trash is empty</h4>
+                    <p>Files you move to Trash will appear here.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/common.js"></script>
+    <script src="js/trash.js"></script>
+</body>
+</html>

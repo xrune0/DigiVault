@@ -39,6 +39,13 @@ public class Document {
     @Column(columnDefinition = "TEXT")
     private String summary;
 
+    // Marked as a favourite with the star button
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean starred;
+
+    // Set when the document is moved to Trash; null means the document is active
+    private LocalDateTime deletedAt;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore // don't send user details (and password hash) with every document

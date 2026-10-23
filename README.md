@@ -11,8 +11,14 @@ A secure digital document vault built with Spring Boot. Users register, log in, 
 - Search by name and filter by category
 - Preview PDFs, images and text files in the browser
 - AI summaries of PDF, DOCX and text documents (OpenAI API)
-- List, download and delete your documents
-- Each user can only access their own files
+- List, download and delete your documents; sort and filter by type (documents / images / others)
+- Star favourite documents and bookmarks
+- Trash with restore, delete forever and empty trash
+- Storage limit per user (100 MB by default, `storage.quota-mb`) with a usage meter
+- Upload several files at once, with optional automatic AI summary
+- "Remember me" login and show/hide password
+- Bookmarks: save links with a category and description; the site (YouTube, Google, GitHub...) is tagged automatically from the URL
+- Each user can only access their own files and bookmarks
 
 ## Tech Stack
 
@@ -28,19 +34,21 @@ A secure digital document vault built with Spring Boot. Users register, log in, 
 ```
 src/main/java/com/digivault/
 ├── config/       SecurityConfig, WebConfig (CORS)
-├── controller/   AuthController, DocumentController
-├── dto/          RegisterRequest, LoginRequest, AuthResponse
-├── entity/       User, Document
-├── repository/   UserRepository, DocumentRepository
+├── controller/   AuthController, DocumentController, BookmarkController
+├── dto/          RegisterRequest, LoginRequest, AuthResponse, BookmarkRequest
+├── entity/       User, Document, Bookmark
+├── repository/   UserRepository, DocumentRepository, BookmarkRepository
 ├── security/     JwtUtil, JwtAuthFilter, CustomUserDetailsService
-└── service/      AuthService, DocumentService
+└── service/      AuthService, DocumentService, BookmarkService,
+                  EncryptionService, AiService
 
 src/main/resources/static/
 ├── index.html      Login page
 ├── register.html   Registration page
 ├── dashboard.html  Document dashboard
+├── bookmarks.html  Bookmarks page
 ├── css/style.css
-└── js/             auth.js, dashboard.js
+└── js/             auth.js, common.js, dashboard.js, bookmarks.js
 ```
 
 ## API Endpoints
@@ -53,7 +61,18 @@ src/main/resources/static/
 | GET    | `/api/documents`                | Yes  | List your documents      |
 | GET    | `/api/documents/download/{id}`  | Yes  | Download a document      |
 | POST   | `/api/documents/{id}/summarize` | Yes  | AI summary of a document |
-| DELETE | `/api/documents/{id}`           | Yes  | Delete a document        |
+| PUT    | `/api/documents/{id}/star`      | Yes  | Star / unstar a document |
+| DELETE | `/api/documents/{id}`           | Yes  | Move a document to Trash |
+| GET    | `/api/documents/trash`          | Yes  | List documents in Trash  |
+| POST   | `/api/documents/{id}/restore`   | Yes  | Restore from Trash       |
+| DELETE | `/api/documents/{id}/permanent` | Yes  | Delete forever           |
+| DELETE | `/api/documents/trash`          | Yes  | Empty Trash              |
+| GET    | `/api/documents/storage`        | Yes  | Storage used and limit   |
+| PUT    | `/api/bookmarks/{id}/star`      | Yes  | Star / unstar a bookmark |
+| GET    | `/api/bookmarks`                | Yes  | List your bookmarks      |
+| POST   | `/api/bookmarks`                | Yes  | Add a bookmark           |
+| PUT    | `/api/bookmarks/{id}`           | Yes  | Edit a bookmark          |
+| DELETE | `/api/bookmarks/{id}`           | Yes  | Delete a bookmark        |
 
 Authenticated requests need the header `Authorization: Bearer <token>`.
 

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigiVault - Bookmarks</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='9' fill='%231d1b22'/><path d='M11 15v-3a5 5 0 0 1 10 0v3' fill='none' stroke='white' stroke-width='2.4'/><rect x='9' y='15' width='14' height='10' rx='2.5' fill='white'/></svg>">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" id="sidebar" data-page="bookmarks"></aside>
+
+        <main class="main">
+            <header class="topbar" id="topbar"></header>
+
+            <div class="page-head">
+                <div>
+                    <h1>Bookmarks</h1>
+                    <p>Save useful links in one place. The site tag is added automatically.</p>
+                </div>
+                <button class="btn btn-violet" id="addBtn" type="button">＋ Add Link</button>
+            </div>
+
+            <div class="filters">
+                <div class="input-icon">
+                    <svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+                    <input type="search" id="searchInput" class="field" placeholder="Search title, link or description...">
+                </div>
+                <select id="categoryFilter" class="select">
+                    <option value="All">All categories</option>
+                    <option value="Learning">Learning</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="News & Reading">News &amp; Reading</option>
+                    <option value="Work & Tools">Work &amp; Tools</option>
+                    <option value="Social">Social</option>
+                    <option value="Other">Other</option>
+                </select>
+                <select id="siteFilter" class="select">
+                    <option value="All">All sites</option>
+                </select>
+            </div>
+
+            <div class="bookmark-grid" id="bookmarkList"></div>
+
+            <div class="card empty-state" id="emptyMessage" hidden>
+                <div class="sparkle" aria-hidden="true"></div>
+                <h4 id="emptyTitle">No bookmarks yet</h4>
+                <p id="emptyText">Click "Add Link" to save your first bookmark.</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add / edit bookmark pop-up -->
+    <div class="modal-overlay" id="bookmarkModal" hidden>
+        <div class="modal narrow">
+            <div class="modal-header">
+                <h3 id="formTitle">Add Link</h3>
+                <button class="icon-btn bordered" id="closeModalBtn" type="button" title="Close"><svg class="i i-sm" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+            </div>
+            <form class="modal-body" id="bookmarkForm">
+                <div class="form-field">
+                    <label for="urlInput">Link</label>
+                    <input type="text" id="urlInput" class="field" placeholder="https://www.youtube.com/watch?v=..." required>
+                </div>
+                <div class="form-field">
+                    <label for="titleInput">Title <span class="muted">(optional)</span></label>
+                    <input type="text" id="titleInput" class="field" placeholder="e.g. Spring Boot full course">
+                </div>
+                <div class="form-field">
+                    <label for="categoryInput">Category</label>
+                    <select id="categoryInput" class="select full">
+                        <option value="Learning">Learning</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="News & Reading">News &amp; Reading</option>
+                        <option value="Work & Tools">Work &amp; Tools</option>
+                        <option value="Social">Social</option>
+                        <option value="Other" selected>Other</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label for="descriptionInput">Description <span class="muted">(optional)</span></label>
+                    <textarea id="descriptionInput" class="field" rows="3" placeholder="What does this link lead to?"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-ghost" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn btn-dark" id="saveBtn">Save Link</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/common.js"></script>
+    <script src="js/bookmarks.js"></script>
+</body>
+</html>

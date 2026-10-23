@@ -3,146 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DigiVault - Dashboard</title>
+    <title>DigiVault - Home</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='9' fill='%231d1b22'/><path d='M11 15v-3a5 5 0 0 1 10 0v3' fill='none' stroke='white' stroke-width='2.4'/><rect x='9' y='15' width='14' height='10' rx='2.5' fill='white'/></svg>">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header class="navbar">
-        <div class="logo">
-            <div class="logo-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            </div>
-            DigiVault
-        </div>
+    <div class="app-shell">
+        <aside class="sidebar" id="sidebar" data-page="home"></aside>
 
-        <div class="nav-right">
-            <div class="user-info">
-                <div class="avatar" id="avatar"></div>
-                <div class="user-text">
-                    <strong id="userName"></strong>
-                    <small id="userEmail"></small>
+        <main class="main">
+            <header class="topbar" id="topbar"></header>
+
+            <!-- Banner with greeting and rotating tips -->
+            <section class="hero">
+                <div class="hero-card glass">
+                    <h2 id="greeting">Hello!</h2>
+                    <p>Every file you upload is encrypted with AES-256 before it's stored.</p>
                 </div>
-            </div>
-            <button id="logoutBtn" class="btn btn-secondary btn-small">Logout</button>
-        </div>
-    </header>
-
-    <main class="container">
-        <div class="page-title">
-            <h2 id="greeting">Welcome!</h2>
-            <p>Here's an overview of your secure vault. 🔐 All files are encrypted with AES-256.</p>
-        </div>
-
-        <!-- Stats -->
-        <section class="stats">
-            <div class="stat-card">
-                <div class="stat-icon purple">📄</div>
-                <div>
-                    <p>Total Documents</p>
-                    <h4 id="statCount">0</h4>
+                <div class="tip-card glass">
+                    <blockquote id="tipText"></blockquote>
+                    <cite>— DigiVault</cite>
+                    <div class="tip-nav">
+                        <button class="icon-btn" id="tipPrev" type="button" title="Previous tip"><svg class="i i-sm" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+                        <span id="tipCount">1/3</span>
+                        <button class="icon-btn" id="tipNext" type="button" title="Next tip"><svg class="i i-sm" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+                    </div>
                 </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon cyan">💾</div>
-                <div>
-                    <p>Storage Used</p>
-                    <h4 id="statSize">0 B</h4>
+            </section>
+
+            <!-- Stats -->
+            <section class="stats">
+                <div class="card stat">
+                    <span class="tile t-violet"><svg class="i" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg></span>
+                    <p>Total documents</p>
+                    <h3 id="statDocs">0</h3>
                 </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon green">🕒</div>
-                <div>
-                    <p>Last Upload</p>
-                    <h4 id="statLast">—</h4>
+                <div class="card stat">
+                    <span class="tile t-peach"><svg class="i" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></span>
+                    <p>Storage used</p>
+                    <h3 id="statStorage">0 B</h3>
                 </div>
-            </div>
-        </section>
-
-        <!-- Upload -->
-        <section class="card">
-            <div class="card-header">
-                <h3>Upload Document</h3>
-            </div>
-            <form id="uploadForm" class="upload-form">
-                <div class="dropzone" id="dropzone">
-                    <input type="file" id="fileInput" required>
-                    <div class="dropzone-icon">☁️</div>
-                    <p><strong>Click to browse</strong> or drag &amp; drop a file here</p>
-                    <p>Any file type · Max 10 MB</p>
-                    <p class="selected-file" id="selectedFile" hidden></p>
+                <div class="card stat">
+                    <span class="tile t-amber"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3 6.4 20.2l1.1-6.2L3 9.6l6.2-.9z"/></svg></span>
+                    <p>Starred</p>
+                    <h3 id="statStarred">0</h3>
                 </div>
-                <div class="upload-actions">
-                    <select id="categoryInput" class="select">
-                        <option value="ID">🪪 ID</option>
-                        <option value="Education">🎓 Education</option>
-                        <option value="Medical">🩺 Medical</option>
-                        <option value="Finance">💰 Finance</option>
-                        <option value="Work">💼 Work</option>
-                        <option value="Other" selected>📁 Other</option>
-                    </select>
-                    <button type="submit" class="btn btn-primary" id="uploadBtn">⬆ Upload File</button>
+                <div class="card stat">
+                    <span class="tile t-pink"><svg class="i" viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg></span>
+                    <p>Bookmarks</p>
+                    <h3 id="statBookmarks">0</h3>
                 </div>
-            </form>
-        </section>
+            </section>
 
-        <!-- Documents -->
-        <section class="card">
-            <div class="card-header">
-                <h3>My Documents</h3>
-                <span class="badge-count" id="docBadge">0 files</span>
-            </div>
-
-            <div class="toolbar">
-                <input type="search" id="searchInput" class="search-input" placeholder="🔍 Search by file name...">
-                <select id="categoryFilter" class="select">
-                    <option value="All">All categories</option>
-                    <option value="ID">🪪 ID</option>
-                    <option value="Education">🎓 Education</option>
-                    <option value="Medical">🩺 Medical</option>
-                    <option value="Finance">💰 Finance</option>
-                    <option value="Work">💼 Work</option>
-                    <option value="Other">📁 Other</option>
-                </select>
-            </div>
-
-            <div class="table-wrap" id="tableWrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>File</th>
-                            <th>Category</th>
-                            <th>Size</th>
-                            <th>Uploaded</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="documentList"></tbody>
-                </table>
-            </div>
-
-            <div class="empty-state" id="emptyMessage">
-                <div>📂</div>
-                <h4 id="emptyTitle">No documents yet</h4>
-                <p id="emptyText">Upload your first file to get started.</p>
-            </div>
-        </section>
-    </main>
-
-    <!-- Pop-up used for both file preview and AI summary -->
-    <div class="modal-overlay" id="modal" hidden>
-        <div class="modal">
-            <div class="modal-header">
-                <h3 id="modalTitle"></h3>
-                <button class="modal-close" id="modalClose" title="Close">✕</button>
-            </div>
-            <div class="modal-body" id="modalBody"></div>
-        </div>
+            <!-- Quick actions -->
+            <section class="quick">
+                <a href="upload.html" class="q-violet">
+                    <span class="big"><svg class="i" viewBox="0 0 24 24"><path d="M12 15V4"/><path d="M7 9l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg></span>
+                    <strong>Upload File</strong><small>Add new files to your vault.</small>
+                </a>
+                <a href="documents.html" class="q-amber">
+                    <span class="big"><svg class="i" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span>
+                    <strong>View Files</strong><small>Browse your stored files.</small>
+                </a>
+                <a href="bookmarks.html" class="q-green">
+                    <span class="big"><svg class="i" viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg></span>
+                    <strong>Bookmarks</strong><small>Quick access to saved links.</small>
+                </a>
+                <a href="trash.html" class="q-pink">
+                    <span class="big"><svg class="i" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M6 6l1 14h10l1-14"/></svg></span>
+                    <strong>Trash</strong><small>Restore or delete removed files.</small>
+                </a>
+            </section>
+        </main>
     </div>
 
-    <div class="toast" id="toast"></div>
-
-    <script src="js/dashboard.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/home.js"></script>
 </body>
 </html>
